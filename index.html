@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB SL Vectors Assessment 1</title>
+    
+    <script type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 750px; margin: 0 auto; padding: 20px; background-color: #f8f9fa; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; box-sizing: border-box; }
+        h1 { color: #1a73e8; font-size: 1.5em; border-bottom: 2px solid #e8f0fe; padding-bottom: 8px; }
+        .question-block { margin-bottom: 20px; padding: 15px; border-left: 5px solid #1a73e8; background: #ffffff; }
+        .input-group { margin: 12px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        .input-group label { min-width: 160px; font-weight: 600; font-size: 0.95em; }
+        input[type="text"] { flex: 1; min-width: 150px; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; }
+        input:disabled { background-color: #e9ecef; color: #495057; border-color: #dee2e6; }
+        .btn { background: #1a73e8; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .feedback-icon { font-weight: bold; font-size: 1.2em; margin-left: 5px; }
+        .correct { color: #28a745; }
+        .incorrect { color: #dc3545; }
+        .working { background: #f1f8ff; padding: 15px; border-radius: 6px; margin-top: 10px; display: none; border: 1px solid #c8e1ff; font-size: 0.95em; }
+        #certificateArea { display: none; border: 4px double #1a73e8; text-align: center; }
+        @media print { 
+            body { background: white; padding: 0; }
+            .card, #assessmentArea, #setupArea { display: none !important; }
+            #certificateArea { display: block !important; width: 100%; position: absolute; left: 0; top: 0; margin: 0; padding: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="setupArea" class="card">
+    <h1>IB SL Vectors Unit Assessments</h1>
+    <p>Please enter your name to begin <strong>Summative Assessment 1: Vector Basics</strong>.</p>
+    <input type="text" id="studentName" placeholder="Enter Full Name Here..." style="width: 100%; box-sizing: border-box; padding: 10px;">
+    <button class="btn" style="margin-top:15px;" onclick="startAssessment()">Start Assessment</button>
+</div>
+
+<div id="assessmentArea" style="display:none;">
+    <div class="card">
+        <h1>Summative Assessment 1: Vector Basics</h1>
+        
+        <div class="question-block">
+            <p id="q1_text"></p>
+            <div class="input-group">
+                <label>a) Position vector $\vec{OA}$:</label>
+                <input type="text" id="ans1a" placeholder="(x, y, z)"> 
+                <span id="chk1a" class="feedback-icon"></span>
+            </div>
+            <div class="input-group">
+                <label>b) Displacement $\vec{AB}$:</label>
+                <input type="text" id="ans1b" placeholder="(x, y, z)"> 
+                <span id="chk1b" class="feedback-icon"></span>
+            </div>
+            <div class="input-group">
+                <label>c) Magnitude $|\vec{AB}|$:</label>
+                <input type="text" id="ans1c" placeholder="e.g. sqrt(50) or 7.1"> 
+                <span id="chk1c" class="feedback-icon"></span>
+            </div>
+            <div id="w1" class="working"></div>
+        </div>
+
+        <div class="question-block">
+            <p id="q2_text"></p>
+            <div class="input-group">
+                <label>Value of $p$:</label>
+                <input type="text" id="ans2p" placeholder="Enter number"> 
+                <span id="chk2p" class="feedback-icon"></span>
+            </div>
+            <div class="input-group">
+                <label>Value of $q$:</label>
+                <input type="text" id="ans2q" placeholder="Enter number"> 
+                <span id="chk2q" class="feedback-icon"></span>
+            </div>
+            <div id="w2" class="working"></div>
+        </div>
+
+        <div class="question-block">
+            <p id="q3_text"></p>
+            <div class="input-group">
+                <label>Unit Vector $\hat{\mathbf{v}}$:</label>
+                <input type="text" id="ans3" placeholder="(x, y)"> 
+                <span id="chk3" class="feedback-icon"></span>
+            </div>
+            <div id="w3" class="working"></div>
+        </div>
+
+        <button class="btn" id="submitBtn" onclick="handleSubmission()">Submit Answers</button>
+    </div>
+</div>
+
+<div id="certificateArea" class="card">
+    <h1>Vectors Unit Results</h1>
+    <h2 style="color: #555;">Summative Assessment 1: Vector Basics</h2>
+    <h2 id="certName" style="margin-top: 30px; font-size: 2em;"></h2>
+    <hr style="width: 50%; border: 1px solid #eee;">
+    <div style="margin: 20px 0;">
+        <p id="certScore" style="font-size: 1.5em; font-weight: bold;"></p>
+        <p id="certStamp"></p>
+        <p id="certCode" style="color: #888; font-size: 0.8em;"></p>
+    </div>
+    <button class="btn" onclick="window.print()">Print Results</button>
+</div>
+
+<script>
+    let qData = {};
+    let attemptCount = 0;
+    let scores = { q1a:0, q1b:0, q1c:0, q2p:0, q2q:0, q3:0 };
+
+    function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
+
+    function refreshMath() {
+        if (window.MathJax) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+
+    function startAssessment() {
+        const name = document.getElementById('studentName').value;
+        if (!name) return alert("Please enter your name");
+
+        qData.a = [randomInt(-5, 5), randomInt(-5, 5), randomInt(-5, 5)];
+        qData.b = [randomInt(1, 6), randomInt(-6, -1), randomInt(2, 7)];
+        qData.ab = qData.b.map((v, i) => v - qData.a[i]);
+        qData.magSq = qData.ab.reduce((s, v) => s + v*v, 0);
+
+        let k = randomInt(2, 4) * (Math.random() > 0.5 ? 1 : -1);
+        qData.u = [randomInt(1, 4), randomInt(-4, -1), randomInt(2, 5)];
+        qData.v = qData.u.map(x => x * k);
+
+        const triples = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [9, 40, 41], [12, 35, 37], [20, 21, 29]];
+        let t = triples[randomInt(0, triples.length - 1)];
+        qData.v3 = [t[0] * (Math.random() > 0.5 ? 1 : -1), t[1] * (Math.random() > 0.5 ? 1 : -1)];
+        qData.mag3 = t[2];
+
+        document.getElementById('q1_text').innerHTML = "1. Given points $A(" + qData.a.join(', ') + ")$ and $B(" + qData.b.join(', ') + ")$:";
+        document.getElementById('q2_text').innerHTML = "2. Vectors $\\mathbf{u} = \\begin{pmatrix} " + qData.u[0] + " \\\\ " + qData.u[1] + " \\\\ p \\end{pmatrix}$ and $\\mathbf{v} = \\begin{pmatrix} q \\\\ " + qData.v[1] + " \\\\ " + qData.v[2] + " \\end{pmatrix}$ are parallel.";
+        document.getElementById('q3_text').innerHTML = "3. Find the unit vector in the direction of $\\mathbf{v} = \\begin{pmatrix} " + qData.v3[0] + " \\\\ " + qData.v3[1] + " \\end{pmatrix}$.";
+
+        document.getElementById('setupArea').style.display = 'none';
+        document.getElementById('assessmentArea').style.display = 'block';
+        refreshMath();
+    }
+
+    function parseInput(str) {
+        return str.replace(/[()\[\]\s]/g, '').split(',').map(s => {
+            if (s.includes('/')) {
+                let p = s.split('/');
+                return parseFloat(p[0]) / parseFloat(p[1]);
+            }
+            return parseFloat(s);
+        });
+    }
+
+    function handleSubmission() {
+        attemptCount++;
+        const check = (id, chkId, target, type, key) => {
+            let val = document.getElementById(id).value.trim().toLowerCase();
+            let isCorrect = false;
+            if (val) {
+                if (type === 'vector') {
+                    let u = parseInput(val);
+                    isCorrect = u.length === target.length && u.every((n, i) => Math.abs(n - target[i]) < 0.01);
+                } else if (type === 'mag') {
+                    if (val === "sqrt(" + target + ")") isCorrect = true;
+                    else isCorrect = Math.abs(parseFloat(val) - Math.sqrt(target)) < 0.15;
+                } else if (type === 'num') {
+                    isCorrect = Math.abs(parseFloat(val) - target) < 0.01;
+                }
+            }
+            let indicator = document.getElementById(chkId);
+            let input = document.getElementById(id);
+            if (isCorrect) {
+                indicator.innerHTML = "✓"; indicator.className = "feedback-icon correct";
+                input.disabled = true; scores[key] = 1;
+            } else {
+                if (attemptCount >= 2) {
+                    indicator.innerHTML = "✗"; indicator.className = "feedback-icon incorrect";
+                    input.disabled = true;
+                } else {
+                    indicator.innerHTML = "?"; indicator.className = "feedback-icon incorrect";
+                }
+            }
+        };
+
+        check('ans1a', 'chk1a', qData.a, 'vector', 'q1a');
+        check('ans1b', 'chk1b', qData.ab, 'vector', 'q1b');
+        check('ans1c', 'chk1c', qData.magSq, 'mag', 'q1c');
+        check('ans2p', 'chk2p', qData.u[2], 'num', 'q2p');
+        check('ans2q', 'chk2q', qData.v[0], 'num', 'q2q');
+        check('ans3', 'chk3', [qData.v3[0]/qData.mag3, qData.v3[1]/qData.mag3], 'vector', 'q3');
+
+        if (attemptCount === 1 && Object.values(scores).every(s => s === 1)) finalize();
+        else if (attemptCount >= 2) finalize();
+        else {
+            document.getElementById('submitBtn').innerText = "Submit Final Attempt";
+            alert("Some parts are incorrect. Review and try again.");
+        }
+    }
+
+    function finalize() {
+        showWorkings();
+        document.getElementById('assessmentArea').style.opacity = "0.6";
+        document.getElementById('submitBtn').style.display = "none";
+        document.getElementById('certificateArea').style.display = "block";
+        
+        let total = Object.values(scores).reduce((a,b)=>a+b, 0);
+        document.getElementById('certName').innerText = document.getElementById('studentName').value;
+        document.getElementById('certScore').innerText = "Score: " + Math.round(total/6*100) + "% (" + total + "/6 Correct)";
+        document.getElementById('certStamp').innerText = "Date: " + new Date().toLocaleDateString() + " | Time: " + new Date().toLocaleTimeString();
+        document.getElementById('certCode').innerText = "Verification: V1-" + Math.random().toString(36).substring(7).toUpperCase();
+        
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function showWorkings() {
+        document.getElementById('w1').style.display = 'block';
+        document.getElementById('w1').innerHTML = "<strong>Working Q1:</strong><br>a) $\\vec{OA} = (" + qData.a.join(', ') + ")$<br>b) $\\vec{AB} = (" + qData.b.join(', ') + ") - (" + qData.a.join(', ') + ") = (" + qData.ab.join(', ') + ")$<br>c) $|\\vec{AB}| = \\sqrt{" + qData.ab[0] + "^2 + " + qData.ab[1] + "^2 + " + qData.ab[2] + "^2} = \\sqrt{" + qData.magSq + "}$.";
+
+        document.getElementById('w2').style.display = 'block';
+        let k = qData.v[1]/qData.u[1];
+        document.getElementById('w2').innerHTML = "<strong>Working Q2:</strong><br>Parallel ratio $k = " + qData.v[1] + "/" + qData.u[1] + " = " + k + "$<br>$p = " + qData.v[2] + "/" + k + " = " + qData.u[2] + "$ and $q = " + k + " \\times " + qData.u[0] + " = " + qData.v[0] + "$.";
+
+        document.getElementById('w3').style.display = 'block';
+        document.getElementById('w3').innerHTML = "<strong>Working Q3:</strong><br>$|\\mathbf{v}| = \\sqrt{" + qData.v3[0] + "^2 + (" + qData.v3[1] + ")^2} = " + qData.mag3 + "$<br>Unit vector: $(\\frac{" + qData.v3[0] + "}{" + qData.mag3 + "}, \\frac{" + qData.v3[1] + "}{" + qData.mag3 + "})$.";
+        
+        refreshMath();
+    }
+</script>
+
+</body>
+</html>
